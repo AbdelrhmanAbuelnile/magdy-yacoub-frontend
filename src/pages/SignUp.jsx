@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import logo from "../assets/logo.png";
+import stockImg from "../assets/Assets/background.jpg";
 
 function SignUp() {
 	const [errors, setErrors] = useState({});
@@ -59,12 +60,12 @@ function SignUp() {
 		<section className="">
 			{loading && <Loading />}
 			<div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-				<section className="relative flex h-32 items-end bg-[url(src/assets/Assets/background.jpg)] bg-no-repeat bg-cover lg:col-span-5 lg:h-full xl:col-span-6">
-					{/* <img
+				<section className="relative flex h-32 items-end lg:col-span-5 lg:h-full xl:col-span-6">
+					<img
 						alt=""
-						src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+						src={stockImg}
 						className="absolute inset-0 h-full w-full object-cover opacity-80"
-					/> */}
+					/>
 
 					<div className="hidden lg:relative lg:block lg:p-12">
 						<span className="block text-white" href="#">
