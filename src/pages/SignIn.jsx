@@ -43,7 +43,7 @@ function SignIn() {
 	return (
 		<section className="bg-white">
 			<div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-      <section className="relative flex h-32 items-end  bg-signin bg-no-repeat bg-cover lg:col-span-5 lg:h-full xl:col-span-6">
+      <section className="relative flex h-32 items-end  bg-[url(src/assets/Assets/background.jpg)] bg-no-repeat bg-cover lg:col-span-5 lg:h-full xl:col-span-6">
 				<div className="hidden lg:relative lg:block lg:p-12">
 					<span className="block text-white" href="#">
 						<img src={logo} alt="magdy yacoub img" className="w-40" />
