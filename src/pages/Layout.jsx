@@ -1,28 +1,91 @@
+/* eslint-disable no-unused-vars */
 import { Route, Routes } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import AuthContext from "../context/userContext";
+import { v4 as uuidv4 } from "uuid";
+import "../App.css";
 import Header from "../components/Header";
-// import Bubbles from "../components/Bubbles";
-// import SideNav from "../components/SideNav";
-import Home from "./Home";
-import Footer from "../components/Footer";
 import { QueryClient, QueryClientProvider } from "react-query";
+import ContactList from "../components/ContactList";
+import ContactDetail from "../components/ContactDetail";
+import MedicalProfile from "../components/MedicalProfile";
+import AddContact from "./AddContact";
 
 const queryClient = new QueryClient();
 function Layout() {
 	const { token } = useContext(AuthContext);
 	console.log("🚀 ~ Layout ~ token:", token);
 
+	const LOCAL_STORAGE_KEY = "contacts";
+	const [contacts, setContacts] = useState([]);
+	const [selectedContact, setSelectedContact] = useState(null);
+	const [vitalSigns, setVitalSigns] = useState({
+		heartRate: 75,
+		bodyTemp: 36.5,
+		blood: "90/60",
+	});
+
+	const addContactHandler = (contact) => {
+		const newContact = { id: uuidv4(), ...contact };
+		const newContactList = [...contacts, newContact];
+		setContacts(newContactList);
+		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newContactList));
+	};
+
+	const removeContactHandler = (id) => {
+		const newContactList = contacts.filter((contact) => contact.id !== id);
+		setContacts(newContactList);
+		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newContactList));
+	};
+
+	const selectContactHandler = (contact) => {
+		setSelectedContact(contact);
+	};
+
+	const closeContactHandler = () => {
+		setSelectedContact(null);
+	};
+
+	useEffect(() => {
+		const retrieveContacts = JSON.parse(
+			localStorage.getItem(LOCAL_STORAGE_KEY)
+		);
+		if (retrieveContacts) setContacts(retrieveContacts);
+	}, []);
+
 	return (
-		<div className="w-screen min-h-screen overflow-x-hidden  relative">
-			<div className="w-full md:w-full lg:w-full h-full z-10">
-				<QueryClientProvider client={queryClient}>
-					<Routes>
-						<Route path="/" element={<Home />} />
-					</Routes>
-				</QueryClientProvider>
-			</div>
-			{/* <Footer /> */}
+		<div className="ui container">
+			<Header />
+			<QueryClientProvider client={queryClient}>
+				<Routes>
+					<Route
+						path="/"
+						exact
+						element={
+							<div className="main-content">
+								<ContactList
+									contacts={contacts}
+									getContactId={removeContactHandler}
+									selectContactHandler={selectContactHandler}
+								/>
+								{selectedContact && (
+									<div className="detail-section">
+										<ContactDetail
+											contact={selectedContact}
+											onClose={closeContactHandler}
+										/>
+										<MedicalProfile vitalSigns={vitalSigns} />
+									</div>
+								)}
+							</div>
+						}
+					/>
+					<Route
+						path="/add"
+						element={<AddContact addContactHandler={addContactHandler} />}
+					/>
+				</Routes>
+			</QueryClientProvider>
 		</div>
 	);
 }
