@@ -18,7 +18,7 @@ export default {
         'poppins': ["Poppins", 'sans-serif'],
       },
       backgroundImage:{
-        'signin': "url('./src/assets/Assets/background.jpg')",
+        'signin': "url('src/assets/Assets/background.jpg')",
       }
     },
   },

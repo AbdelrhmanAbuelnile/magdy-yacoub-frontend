@@ -59,7 +59,7 @@ function SignUp() {
 		<section className="">
 			{loading && <Loading />}
 			<div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-				<section className="relative flex h-32 items-end  bg-signin bg-no-repeat bg-cover lg:col-span-5 lg:h-full xl:col-span-6">
+				<section className="relative flex h-32 items-end bg-signin bg-no-repeat bg-cover lg:col-span-5 lg:h-full xl:col-span-6">
 					{/* <img
 						alt=""
 						src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
