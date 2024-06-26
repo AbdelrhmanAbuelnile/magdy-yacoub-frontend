@@ -1,22 +1,23 @@
 import AuthContext from "../context/userContext";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import logo from "../assets/logo.png";
 import stockImg from "../assets/Assets/background.jpg";
+import auth from "../api/auth";
 
 function SignIn() {
 	const [loading, setLoading] = useState(false);
 	const { setToken, setUser } = useContext(AuthContext);
-	const [data, setData] = useState({ username: "", password: "" });
+	const [data, setData] = useState({ email: "", password: "" });
+	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 
 	const handleLogin = (token, user) => {
 		setToken(token);
 		localStorage.setItem("token", token);
 		localStorage.setItem("user", JSON.stringify(user));
-		navigate("/");
+		// navigate("/");
 	};
 
 	useEffect(() => {
@@ -24,21 +25,30 @@ function SignIn() {
 		const userFronStorage = localStorage.getItem("user");
 		if (tokenFromStorage) {
 			setToken(tokenFromStorage);
-			axios.defaults.headers.common[
-				"Authorization"
-			] = `Bearer ${tokenFromStorage}`;
 			setUser(JSON.parse(userFronStorage));
-			// navigate("/");
+			navigate("/");
 		}
 	}, []);
 
+	const handleSignIn = (data) => {
+		auth
+			.login(data)
+			.then((res) => {
+				setToken(res.data.token);
+				setUser({name:res.data.name,id:res.data.userId,role:res.data.role});
+				handleLogin(res.data.token, res.data.user);
+			})
+			.catch((err) => {
+				setLoading(false);
+				console.log(err);
+				setError(err.response.data);
+			});
+	};
+
 	const handleSubmit = (e) => {
 		setLoading(true);
-		handleLogin("token", { username: "username" });
-		setTimeout(() => {
-			setLoading(false);
-		}, 2000);
 		e.preventDefault();
+		handleSignIn(data);
 	};
 
 	return (
@@ -75,19 +85,19 @@ function SignIn() {
 							className="mb-0 mt-6 space-y-4 rounded-lg p-4 sm:p-6 lg:p-8"
 						>
 							<div>
-								<label htmlFor="username" className="sr-only">
-									username
+								<label htmlFor="email" className="sr-only">
+									email
 								</label>
 
 								<div className="relative">
 									<input
-										value={data.username}
+										value={data.email}
 										onChange={(e) =>
-											setData({ ...data, username: e.target.value })
+											setData({ ...data, email: e.target.value })
 										}
-										type="text"
+										type="email"
 										className="w-full rounded-lg text-slate-300 bg-darckblue p-4 pe-12 text-sm shadow-sm focus:outline-none"
-										placeholder="Enter username"
+										placeholder="Enter email"
 									/>
 								</div>
 							</div>
@@ -116,6 +126,13 @@ function SignIn() {
 							>
 								Sign in
 							</button>
+
+							{error && (
+								<p className="text-red-500 text-lg font-protest p-2 rounded-md border border-red-500 text-center mx-auto w-full">
+									{error.message}
+								</p>
+							)}
+
 							{loading && <Loading />}
 							<p className="text-center text-sm text-gray-500 flex gap-2 justify-center items-center">
 								No account?
