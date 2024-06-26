@@ -8,7 +8,7 @@ import auth from "../api/auth";
 
 function SignIn() {
 	const [loading, setLoading] = useState(false);
-	const { setToken, setUser } = useContext(AuthContext);
+	const { setToken, setUser} = useContext(AuthContext);
 	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
@@ -22,10 +22,10 @@ function SignIn() {
 
 	useEffect(() => {
 		const tokenFromStorage = localStorage.getItem("token");
-		const userFronStorage = localStorage.getItem("user");
+		const userFromStorage = localStorage.getItem("user");
 		if (tokenFromStorage) {
 			setToken(tokenFromStorage);
-			setUser(JSON.parse(userFronStorage));
+			setUser(JSON.parse(userFromStorage));
 			navigate("/");
 		}
 	}, []);
@@ -34,9 +34,10 @@ function SignIn() {
 		auth
 			.login(data)
 			.then((res) => {
+				console.log("🚀 ~ .then ~ res:", res)
 				setToken(res.data.token);
 				setUser({name:res.data.name,id:res.data.userId,role:res.data.role});
-				handleLogin(res.data.token, res.data.user);
+				handleLogin(res.data.token, {name:res.data.name,id:res.data.userId,role:res.data.role});
 			})
 			.catch((err) => {
 				setLoading(false);
