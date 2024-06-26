@@ -7,10 +7,6 @@ body {
   padding: 0;
 }
 
-.ui.container {
-  margin-top: 5em;
-}
-
 .ui.fixed.menu {
   background-color: #ffffff;
   border-bottom: 1px solid #cccccc;

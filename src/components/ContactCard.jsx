@@ -1,29 +1,28 @@
 /* eslint-disable react/prop-types */
+import { BiTrash } from "react-icons/bi";
 import user1 from "../images/user.png";
 import user2 from "../images/user2.png";
 
 const ContactCard = (props) => {
-  const { id, name, age, gender, email } = props.contact;
-  console.log('Contact:', props.contact); // Log contact data
-  const userImage = gender && gender.toLowerCase() === "f" ? user2 : user1;
-  console.log('Selected image:', userImage); // Log selected image
-
+  const { id, name, age, gender, email } = props.contact
   return (
-    <div className="item" onClick={() => props.selectContactHandler(props.contact)}>
-      <img className="ui avatar image" src={userImage} alt="user" />
-      <div className="content">
-        <div className="header">{name}</div>
-        <div>{age}, {gender}</div>
-        <div>{email}</div>
+    <div className="flex justify-between items-center hover:bg-white duration-200 px-2 w-full border-y border-slate-300" onClick={() => props.selectContactHandler(props.contact)}>
+      <div className="flex justify-center items-center gap-4">
+      <img className="w-12 rounded-full" src={gender.toLowerCase()[0] == "f" ? user2 : user1} alt="user" />
+      <div className="flex flex-col justify-center items-start gap-0">
+
+          <div className="font-semibold text-xl">{name}</div>
+          <p>{age}, {gender}</p>
+          <p>{email}</p>
       </div>
-      <i
-        className="trash alternate outline icon"
-        style={{ color: "red", marginTop: "7px", cursor: "pointer" }}
+      </div>
+      <BiTrash
+        className="trash alternate icon text-red-500 cursor-pointer"
         onClick={(e) => {
           e.stopPropagation();
           props.clickHandler(id);
         }}
-      ></i>
+      />
     </div>
   );
 };

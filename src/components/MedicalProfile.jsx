@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Line } from "react-chartjs-2";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeartbeat, faThermometerHalf, faHeartCircleBolt } from '@fortawesome/free-solid-svg-icons';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,6 +10,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { FaHeartbeat, FaThermometerHalf } from "react-icons/fa";
+import { FaHeartCircleBolt } from "react-icons/fa6";
 
 ChartJS.register(
   CategoryScale,
@@ -46,34 +46,34 @@ const MedicalProfile = ({ vitalSigns }) => {
   };
 
   return (
-    <div className="medical-profile">
+    <div className="medical-profile shadow-md shadow-slate-400">
       <h3>Medical Profile</h3>
-      <div className="vital-signs">
-        <div className="vital-sign">
-          <div className="icon-wrapper">
-            <FontAwesomeIcon icon={faHeartbeat} size="2x" />
+      <div className="flex justify-between gap-5">
+        <div className="flex justify-between gap-4 mb-5 vital-sign">
+          <div className="">
+            <FaHeartbeat className="text-2xl"/>
           </div>
-          <div className="info">
+          <div className="">
             <h4>Heart Rate</h4>
-            <p>{vitalSigns.heartRate} bpm</p>
+            <p className="text-[#007bff] font-semibold text-lg">{vitalSigns.heartRate} bpm</p>
           </div>
         </div>
-        <div className="vital-sign">
-          <div className="icon-wrapper">
-            <FontAwesomeIcon icon={faThermometerHalf} size="2x" />
+        <div className="flex justify-between gap-4 mb-5 vital-sign">
+          <div className="">
+            <FaThermometerHalf className="text-2xl"/>
           </div>
-          <div className="info">
+          <div className="">
             <h4>Body Temp</h4>
-            <p>{vitalSigns.bodyTemp} °C</p>
+            <p className="text-[#007bff] font-semibold text-lg">{vitalSigns.bodyTemp} °C</p>
           </div>
         </div>
-        <div className="vital-sign">
-          <div className="icon-wrapper">
-            <FontAwesomeIcon icon={faHeartCircleBolt} size="2x" />
+        <div className="flex justify-between gap-4 mb-5 vital-sign">
+          <div className="">
+            <FaHeartCircleBolt className="text-2xl"/>
           </div>
-          <div className="info">
+          <div className="">
             <h4>Blood</h4>
-            <p>{vitalSigns.blood}</p>
+            <p className="text-[#007bff] font-semibold text-lg">{vitalSigns.blood}</p>
           </div>
         </div>
       </div>

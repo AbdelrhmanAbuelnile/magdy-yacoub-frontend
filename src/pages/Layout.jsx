@@ -54,7 +54,7 @@ function Layout() {
 	}, []);
 
 	return (
-		<div className="ui container">
+		<div className="px-48 font-poppins">
 			<Header />
 			<QueryClientProvider client={queryClient}>
 				<Routes>
@@ -62,14 +62,15 @@ function Layout() {
 						path="/"
 						exact
 						element={
-							<div className="main-content">
+							<div className="w-full flex justify-between gap-4">
 								<ContactList
+									onClose={closeContactHandler}
 									contacts={contacts}
 									getContactId={removeContactHandler}
 									selectContactHandler={selectContactHandler}
 								/>
 								{selectedContact && (
-									<div className="detail-section">
+									<div className="flex justify-between w-full items-center gap-4">
 										<ContactDetail
 											contact={selectedContact}
 											onClose={closeContactHandler}

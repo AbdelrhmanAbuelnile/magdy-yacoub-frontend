@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import ContactCard from "./ContactCard";
 import { Link } from "react-router-dom";
+import { PiPlusBold } from "react-icons/pi";
 
 const ContactList = (props) => {
   const deleteContactHandler = (id) => {
     props.getContactId(id);
+    props.onClose();
   };
 
   const renderContactList = props.contacts.map((contact) => {
@@ -19,14 +21,14 @@ const ContactList = (props) => {
   });
 
   return (
-    <div className="main">
-      <h2>Contact List</h2>
+    <div className="w-5/12">
+      <h2 className="text-xl font-medium">Contact List</h2>
       <Link to="/add">
-        <button className="add-patient-btn">
-          <i className="icon plus"></i> Add Contact
+        <button className="add-patient-btn text-sm">
+          <PiPlusBold  className="icon plus"/> Add Contact
         </button>
       </Link>
-      <div className="ui celled list">{renderContactList}</div>
+      <div className="w-full">{renderContactList}</div>
     </div>
   );
 };

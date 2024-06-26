@@ -1,0 +1,55 @@
+/* Header.css */
+
+.ui.sticky.menu {
+  background-color: #ffffff;
+  border-bottom: 1px solid #cccccc;
+  padding: 5px 0; /* Add some padding */
+  height: 60px; /* Set a fixed height for the header */
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure it stays on top of other elements */
+}
+
+.ui.container.center {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align content to the left */
+  height: 100%; /* Ensure the container takes full height */
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.header-content h2 {
+  margin-left: 10px; /* Space between logo and text */
+}
+
+/* Animation for the logo */
+.inline-logo {
+  width: 50px; /* Adjust size to fit appropriately */
+  height: 50px; /* Ensure height is also set */
+}
+
+.icon-container {
+  width: 200px;
+}
+
+.icon-container .icon path {
+  fill: transparent;
+  stroke-width: 10;
+  stroke: #31e8ff;
+}
+
+.icon-container .icon.heart path {
+  stroke-dasharray: 1560;
+  stroke-dashoffset: 1560;
+  animation: dash 2s linear forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
