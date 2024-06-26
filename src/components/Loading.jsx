@@ -1,8 +1,6 @@
-import React from "react";
-
 function Loading() {
 	return (
-		<div class="loader">
+		<div className="loader">
 			<div className="bar"></div>
 			<div className="bar2"></div>
 			<div className="bar3"></div>

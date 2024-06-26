@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 import logo from "../assets/logo.png";
+import auth from "../api/auth";
 import stockImg from "../assets/Assets/background.jpg";
 
 function SignUp() {
@@ -13,11 +14,27 @@ function SignUp() {
 	const navigate = useNavigate();
 
 	const [form, setForm] = useState({
-		username: "",
+		name: "",
 		email: "",
 		password: "",
 		passwordConfirmation: "",
 	});
+
+	const handleSignupApi = (name, email, password) => {
+		auth
+			.signup({ name, email, password, role: "doctor" })
+			.then((res) => {
+				console.log(res);
+				setLoading(false);
+				// navigate("/signin");
+			})
+			.catch((err) => {
+				console.log(err);
+				setServerError(true);
+				setServerErrorMsg("Something went wrong!");
+				setLoading(false);
+			});
+	};
 
 	const handleInputChange = (e) => {
 		setForm({
@@ -35,24 +52,31 @@ function SignUp() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setIsSubmitted(true);
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+		}, 3000);
 		const formErrors = validate(form);
 		setErrors(formErrors);
 		if (!Object.keys(formErrors).length) {
 			setLoading(!loading);
+			console.log(form);
+			handleSignupApi(form.name, form.email, form.password);
+			console.log(form);
 			navigate("/signin");
-		}
+		}	
 	};
 
 	const validate = (form) => {
 		let errors = {};
-		if (!form.username) errors.username = "Username is required";
+		if (!form.name) errors.name = "name is required";
 		if (!form.email) errors.email = "Email is required";
 		else if (!/\S+@\S+\.\S+/.test(form.email))
 			errors.email = "Email is invalid";
 		if (!form.password) errors.password = "Password is required";
-		if (form.password !== form.passwordConfirmation)
+		if (form.password !== form.passwordConfirmation){
 			errors.passwordConfirmation = "Passwords must match";
-		if (!form.role) errors.role = "Role is required";
+		}
 		return errors;
 	};
 
@@ -89,22 +113,22 @@ function SignUp() {
 						>
 							<div className="col-span-6">
 								<label
-									htmlFor="userName"
+									htmlFor="name"
 									className="block text-sm font-medium text-gray-600"
 								>
-									User Name
+									Name
 								</label>
 
 								<input
 									type="text"
-									id="userName"
-									name="username"
-									placeholder="User Name"
+									id="name"
+									name="name"
+									placeholder="Name"
 									className="p-2 mt-1 w-full rounded-md border-gray-500  border-[1px] bg-darckblue text-sm text-gray-200 placeholder:text-gray-200 shadow-md focus:outline-none"
 									onChange={handleInputChange}
 								/>
-								{isSubmitted && errors.username && (
-									<p className="text-red-500 text-xs">{errors.username}</p>
+								{isSubmitted && errors.name && (
+									<p className="text-red-500 text-xs">{errors.name}</p>
 								)}
 							</div>
 
@@ -212,15 +236,18 @@ function SignUp() {
 							</div>
 
 							<div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-								{/* <button onClick={(e)=>handleSubmit(e)} className="inline-block shrink-0 rounded-md border border-black bg-darckblue px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-black focus:outline-none focus:ring active:text-blue-500">
+								<button
+									onClick={(e) => handleSubmit(e)}
+									className="inline-block shrink-0 rounded-md border border-black bg-darckblue px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-black focus:outline-none focus:ring active:text-blue-500"
+								>
 									Create an account
-								</button> */}
-								<Link
+								</button>
+								{/* <Link
 									to={"/signin"}
 									className="inline-block shrink-0 rounded-md border border-black bg-darckblue px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-black focus:outline-none focus:ring active:text-blue-500"
 								>
 									Create an account
-								</Link>
+								</Link> */}
 								<p className="mt-4 text-sm text-gray-500 sm:mt-0 flex items-center gap-2">
 									Already have an account?
 									<Link to={"/signin"} className="text-darkerblue underline">
