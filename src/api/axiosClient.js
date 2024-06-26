@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const apiUrl = import.meta.env.VITE_APIURL
+const apiUrl = "https://magdy-yacoub-backend.vercel.app/"
 console.log("🚀 ~ apiUrl:", apiUrl);
 
 const axiosClient = axios.create({
